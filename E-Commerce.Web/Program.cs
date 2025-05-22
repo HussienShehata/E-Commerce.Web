@@ -28,6 +28,7 @@ namespace E_Commerce.Web
             });
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+            builder.Services.AddAutoMapper(assemblies : typeof(Services.AssemblyReference).Assembly);
 
             #endregion
 
