@@ -12,13 +12,13 @@ namespace Services.Specifications
 {
     internal class ProductWithBrandAndTypeSpecifications : BaseSpecifications<Product, int>
     {
-        public ProductWithBrandAndTypeSpecifications(int? BrandId,int? TypeId, ProductSortingOptions sortingOptions) 
-            : base(CriteriaExpression: P=> (!BrandId.HasValue || P.BrandId == BrandId) && (!TypeId.HasValue || P.TypeId== TypeId) )
+        public ProductWithBrandAndTypeSpecifications(ProductQueryParams queryParams) 
+            : base(CriteriaExpression: P=> (!queryParams.BrandId.HasValue || P.BrandId == queryParams.BrandId) && (!queryParams.TypeId.HasValue || P.TypeId== queryParams.TypeId) )
         {
             AddInclude(includeExpression: P => P.ProductBrand);
             AddInclude(includeExpression: P => P.ProductType);
 
-            switch (sortingOptions)
+            switch (queryParams.SortingOptions)
             {
                 case ProductSortingOptions.NameAsc:
                     AddOrderBy(orderByExp: P => P.Name);
