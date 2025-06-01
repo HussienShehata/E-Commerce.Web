@@ -11,7 +11,8 @@ namespace Services.Specifications
 {
     internal class ProductWithBrandAndTypeSpecifications : BaseSpecifications<Product, int>
     {
-        public ProductWithBrandAndTypeSpecifications() : base(CriteriaExpression: null)
+        public ProductWithBrandAndTypeSpecifications(int? BrandId,int? TypeId) 
+            : base(CriteriaExpression: P=> (!BrandId.HasValue || P.BrandId == BrandId) && (!TypeId.HasValue || P.TypeId== TypeId) )
         {
             AddInclude(includeExpression: P => P.ProductBrand);
             AddInclude(includeExpression: P => P.ProductType);
