@@ -33,6 +33,7 @@ namespace Services.Specifications
 
         public Expression<Func<TEntity, object>> OrderByDesc {  get; private set; }
 
+       
         protected void AddOrderBy(Expression<Func<TEntity, object>> orderByExp)
         {
             OrderBy = orderByExp;
@@ -41,6 +42,22 @@ namespace Services.Specifications
         protected void AddOrderByDesc(Expression<Func<TEntity, object>> orderByDescExp)
         {
             OrderByDesc = orderByDescExp;
+        }
+        #endregion
+
+        #region Pagination
+
+        public int Take { get; private set; }
+
+        public int Skip { get;private set; }
+
+        public bool IsPaginated { get; set ; }
+        
+        protected void ApplyPagination(int pageSize, int pageIndex)
+        {
+            IsPaginated = true;
+            Take = pageSize;
+            Skip= (pageIndex -1)* pageSize;
         }
         #endregion
 

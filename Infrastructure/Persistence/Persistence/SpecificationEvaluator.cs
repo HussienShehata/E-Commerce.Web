@@ -38,6 +38,14 @@ namespace Services
 
                 Query= specifications.IncludeExpressions.Aggregate(seed:Query , func:(CurrentQuery,IncludeExp)=> CurrentQuery.Include(IncludeExp)); // second overload of "Aggregate()"
             }
+            //if(specifications.IsPaginated)
+            //{
+            //    Query=Query.Skip(specifications.Skip).Take(specifications.Take);
+            //}
+            if(specifications.IsPaginated)
+            {
+                Query = Query.Skip(specifications.Skip).Take(specifications.Take);
+            }
             return Query;
         }
 

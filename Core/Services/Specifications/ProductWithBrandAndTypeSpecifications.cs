@@ -39,6 +39,8 @@ namespace Services.Specifications
 
 
             }
+
+            ApplyPagination(queryParams.PageSize, queryParams.PageIndex);
         }
         public ProductWithBrandAndTypeSpecifications(int id) : base(CriteriaExpression: P => P.Id == id)
         {
