@@ -10,7 +10,7 @@ using DomainLayer.Models.ProductModule;
 using Services.Specifications;
 using ServicesAbstraction;
 using Shared;
-using Shared.DataTransferObjects;
+using Shared.DataTransferObjects.ProductModuleDtos;
 
 namespace Services
 {
