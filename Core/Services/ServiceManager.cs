@@ -9,12 +9,15 @@ using ServicesAbstraction;
 
 namespace Services
 {
-    public class ServiceManager(IUnitOfWork _unitOfWork , IMapper _mapper) : IServiceManager
+    public class ServiceManager(IUnitOfWork _unitOfWork , IMapper _mapper ,IBasketRepository _basketRepository ) : IServiceManager
     {
         // Lazy Implementation
 
         //create lazy attribute to use it to initialize this property when is needed to be initialized
         private readonly Lazy<IProductService> _LazyProductService = new Lazy<IProductService>(valueFactory: () => new ProductService(_unitOfWork,_mapper));
         public IProductService ProductService => _LazyProductService.Value;
+
+        private readonly Lazy<IBasketService> _LazyBasketService = new Lazy<IBasketService> (valueFactory: ()=> new BasketService(_basketRepository,_mapper));
+        public IBasketService BasketService => _LazyBasketService.Value;
     }
 }
