@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.Extensions.Configuration;
+using Persistence.Identity;
 using StackExchange.Redis;
 
 namespace Persistence
@@ -18,8 +19,12 @@ namespace Persistence
            Services.AddScoped<IBasketRepository, BasketRepository>();
            Services.AddSingleton<IConnectionMultiplexer>( (_) =>
            {
-              return  ConnectionMultiplexer.Connect(configuration: Configuration.GetConnectionString(name: "RedisConnectionString"));
+              return  ConnectionMultiplexer.Connect(configuration: Configuration.GetConnectionString(name: "RedisConnectionString")!);
            });
+            Services.AddDbContext<StoreIdentityDbContext>(Options =>
+            {
+                Options.UseSqlServer(connectionString: Configuration.GetConnectionString(name: "IdentityConnection"));
+            });
             return Services;
         }
     }
