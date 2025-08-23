@@ -5,13 +5,19 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using DomainLayer.Contracts;
+using DomainLayer.Models.IdentityModule;
 using DomainLayer.Models.ProductModule;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
+using Persistence.Identity;
 
 namespace Persistence
 {
-    public class DataSeeding(StoreDbContext _dbContext) : IDataSeeding
+    public class DataSeeding(StoreDbContext _dbContext, 
+        UserManager<ApplicationUser> _userManager,
+        RoleManager<IdentityRole> _roleManager,
+        StoreIdentityDbContext _identityDbContext) : IDataSeeding
     {
         public async Task DataSeedAsync()
         {
@@ -63,6 +69,42 @@ namespace Persistence
             {
 
                 // To Do;
+            }
+        }
+
+        public async Task IdentityDataSeedAsync()
+        {
+            try
+            {
+                if (!_roleManager.Roles.Any())
+                {
+                    await _roleManager.CreateAsync(role: new IdentityRole(roleName: "Admin"));
+                    await _roleManager.CreateAsync(role: new IdentityRole(roleName: "SuperAdmin"));
+                }
+
+                if (!_userManager.Users.Any())
+                {
+                    var User01 = new ApplicationUser()
+                    {
+                        Email = "Mohamed@gmail.com",
+                        DisplayName = "Mohamed Tarek",
+                        PhoneNumber = "0123456789",
+                        UserName = "MohamedTarek"
+                    };
+                    var User02 = new ApplicationUser()
+                    {
+                        Email = "Salama@gmail.com",
+                        DisplayName = "Salma Mohamed",
+                        PhoneNumber = "0123456789",
+                        UserName = "SalmaMohamed"
+                    };
+                    await _userManager.CreateAsync(user: User01, password: "P@ss0rd");
+                    await _userManager.CreateAsync(user: User02, password: "P@ssw0rd");
+                }
+                await _identityDbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
             }
         }
     }
