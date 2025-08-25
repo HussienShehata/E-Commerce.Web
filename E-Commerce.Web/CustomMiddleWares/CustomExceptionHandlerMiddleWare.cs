@@ -35,15 +35,6 @@ namespace E_Commerce.Web.CustomMiddleWares
 
         private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
-            //// Set status code for response in header
-            //context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-
-            context.Response.StatusCode = ex switch
-            {
-                NotFoundException => StatusCodes.Status404NotFound,
-                _ => StatusCodes.Status500InternalServerError
-            };
-
             //// Set content type  for response in header
             //context.Response.ContentType = "application/json";
 
@@ -54,6 +45,18 @@ namespace E_Commerce.Web.CustomMiddleWares
                 StatusCode = context.Response.StatusCode,
                 ErrorMessage = ex.Message
             };
+            //// Set status code for response in header
+            //context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+            context.Response.StatusCode = ex switch
+            {
+                NotFoundException => StatusCodes.Status404NotFound,
+                UnauthorizedException => StatusCodes.Status401Unauthorized,
+                BadRequestException badRequestException => GetBadRequestErrors(badRequestException, Response),
+                _ => StatusCodes.Status500InternalServerError
+            };
+
+     
 
             //// Return the response object as json
 
@@ -63,6 +66,12 @@ namespace E_Commerce.Web.CustomMiddleWares
             // This syntax makes the previous syntax of serializing the object to json and write it in the Response and set  the content type of response in header
 
             await context.Response.WriteAsJsonAsync(Response);
+        }
+
+        private static int GetBadRequestErrors(BadRequestException badRequestException, ErrorToReturn response)
+        {
+            response.Errors =badRequestException.Errors;
+            return StatusCodes.Status400BadRequest;
         }
 
         private static async Task HandleNotFoundEndpointAsync(HttpContext context)
