@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Presentation.Controllers
 {
     [ApiController]
-    [Route(template:"api/[Controller]")]
-    public class hamadaController : ControllerBase
+    [Route(template: "api/[Controller]")]
+    public class ApiControllerBase : ControllerBase
     {
     }
 }

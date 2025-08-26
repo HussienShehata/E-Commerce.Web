@@ -10,10 +10,7 @@ using Shared.DataTransferObjects.ProductModuleDtos;
 
 namespace Presentation.Controllers
 {
-
-    [ApiController]
-    [Route(template: "api/[Controller]")] // BaseUrl/api/Products
-    public class ProductsController(IServiceManager _serviceManager) : ControllerBase
+    public class ProductsController(IServiceManager _serviceManager) : ApiControllerBase
     {
         // Get All Products
         [HttpGet]

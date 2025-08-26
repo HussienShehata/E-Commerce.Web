@@ -23,7 +23,7 @@ namespace Services
                 {
                     DisplayName = User.DisplayName,  
                     Email = User.Email,
-                    Token = CreateTokenAsync()
+                    Token = "TO Do"
                 };
 
             }
@@ -43,14 +43,14 @@ namespace Services
                 PhoneNumber = registerDto.PhoneNumber,
                 UserName = registerDto.UserName,
             };
-            var Result = await _userManager.CreateAsync(User, registerDto.Password);
+            var Result = await _userManager.CreateAsync(User,registerDto.Password);
             if (Result.Succeeded)
             {
                 return new UserDto()
                 {
                     DisplayName = User.DisplayName,
                     Email = User.Email,
-                    Token = CreateTokenAsync()
+                    Token = "CreateTokenAsync(User)"
                 };
             }
             else
