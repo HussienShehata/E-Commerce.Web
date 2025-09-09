@@ -90,7 +90,7 @@ namespace Services
 
             var Token = new JwtSecurityToken(
             
-                issuer:_configuration[key:"JWTOptions:Iss"],
+                issuer:_configuration[key:"JWTOptions:Issuer"],
                 audience: _configuration[key:"JWTOptions:Audience"],
                 claims: Claims,
                 expires: DateTime.Now.AddHours(1),
